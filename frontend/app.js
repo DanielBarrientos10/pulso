@@ -1,4 +1,5 @@
-const API = '/api';
+// window.API_URL se define en config.js. Vacío = mismo dominio (docker compose).
+const API = (window.API_URL || '').replace(/\/$/, '') + '/api';
 
 const lista = document.getElementById('lista');
 const aviso = document.getElementById('aviso');
@@ -141,8 +142,8 @@ formulario.addEventListener('submit', async (ev) => {
 });
 
 async function iniciar() {
-  // El backend puede tardar unos segundos mientras espera a la base de datos.
-  for (let i = 0; i < 10; i++) {
+  // El backend puede tardar: en Render gratis se duerme y despierta en ~1 minuto.
+  for (let i = 0; i < 40; i++) {
     if (await comprobarEstado()) break;
     await new Promise((r) => setTimeout(r, 2000));
   }

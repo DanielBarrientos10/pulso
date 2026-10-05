@@ -6,13 +6,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT || 5432),
-  user: process.env.DB_USER || 'pulso',
-  password: process.env.DB_PASSWORD || 'pulso123',
-  database: process.env.DB_NAME || 'pulso',
-});
+// En Render se usa DATABASE_URL; en local (docker compose) las variables DB_*.
+const ssl = process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false;
+const pool = process.env.DATABASE_URL
+  ? new Pool({ connectionString: process.env.DATABASE_URL, ssl })
+  : new Pool({
+      host: process.env.DB_HOST || 'localhost',
+      port: Number(process.env.DB_PORT || 5432),
+      user: process.env.DB_USER || 'pulso',
+      password: process.env.DB_PASSWORD || 'pulso123',
+      database: process.env.DB_NAME || 'pulso',
+      ssl,
+    });
 
 const CATEGORIAS = ['Tecnología', 'Música', 'Moda', 'Cine y series', 'Videojuegos', 'Internet'];
 
@@ -64,6 +69,8 @@ async function prepararBD() {
 }
 
 const envolver = (fn) => (req, res, next) => fn(req, res).catch(next);
+
+app.get('/', (req, res) => res.json({ servicio: 'pulso-backend', api: '/api/tendencias' }));
 
 app.get('/api/salud', envolver(async (req, res) => {
   await pool.query('SELECT 1');
