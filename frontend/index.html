@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulso: tendencias de hoy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="cabecera">
+    <a class="marca" href="/">pulso</a>
+    <p class="estado" id="estado" aria-live="polite">Conectando…</p>
+  </header>
+
+  <main>
+    <section class="portada">
+      <h1>Lo que todo el mundo está comentando hoy</h1>
+      <p class="bajada">Un ranking hecho a votos. Sube lo que te gusta, agrega lo que falta.</p>
+    </section>
+
+    <div class="tablero">
+      <section class="ranking" aria-labelledby="titulo-ranking">
+        <div class="ranking-cabecera">
+          <h2 id="titulo-ranking">Ranking</h2>
+          <nav class="filtros" id="filtros" aria-label="Filtrar por categoría"></nav>
+        </div>
+        <ol class="lista" id="lista"></ol>
+        <p class="aviso" id="aviso" hidden></p>
+      </section>
+
+      <aside class="nueva" aria-labelledby="titulo-nueva">
+        <h2 id="titulo-nueva">Agregar tendencia</h2>
+        <form id="formulario" novalidate>
+          <label for="titulo">Título</label>
+          <input id="titulo" name="titulo" type="text" maxlength="120" required
+                 placeholder="Ej.: Podcasts grabados en video">
+
+          <label for="categoria">Categoría</label>
+          <select id="categoria" name="categoria" required></select>
+
+          <label for="descripcion">Descripción (opcional)</label>
+          <textarea id="descripcion" name="descripcion" rows="3" maxlength="280"
+                    placeholder="¿Por qué está sonando?"></textarea>
+
+          <button type="submit" class="boton">Agregar tendencia</button>
+          <p class="mensaje" id="mensaje" role="status"></p>
+        </form>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="pie">
+    <p>Frontend en Nginx, backend en Node y datos en PostgreSQL. Cada uno en su contenedor.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
